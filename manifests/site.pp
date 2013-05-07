@@ -1,6 +1,7 @@
 $source = "https://github.com/stackforge/puppet-openstack"
 
 include clonerepo::do
+include mypackages
 
 class mypackages {
 require intel-proxy
