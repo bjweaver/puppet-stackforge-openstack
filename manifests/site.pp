@@ -3,6 +3,7 @@ $source = "https://github.com/stackforge/puppet-openstack"
 include clonerepo::do
 
 class mypackages {
+require intelproxy
 package { 'git':
 	ensure	=> 'present',
 	}
@@ -10,6 +11,7 @@ package { 'git':
 package { 'rake':
 	ensure	=> 'present',
 	}
+}	
 
 class clonerepo::do {
 vcsrepo { "/etc/puppet/modules/openstack":
@@ -17,11 +19,11 @@ vcsrepo { "/etc/puppet/modules/openstack":
 	provider => git,
 	source => $source,
 	user => 'root',
-	require => Class["mypackages", "intelproxy"],
+	require => Class["mypackages"],
 	}
 }
 
-}
+
 
 exec { "/usr/bin/rake modules:clone":
 	cwd => "/etc/puppet/modules/openstack",
@@ -32,11 +34,3 @@ exec { "/usr/bin/rake modules:clone":
 	require	=> Class["clonerepo::do"],
 	}
 
-class intelproxy{
-file { "/etc/apt/apt.conf":
-	mode => 440,
-	owner => root,
-	group => root,
-	source => "puppet:///modules/openstack-puppet/apt.conf"
-	}
-}
