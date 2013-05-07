@@ -3,7 +3,7 @@ $source = "https://github.com/stackforge/puppet-openstack"
 include clonerepo::do
 
 class mypackages {
-require intelproxy
+require intel-proxy
 package { 'git':
 	ensure	=> 'present',
 	}
